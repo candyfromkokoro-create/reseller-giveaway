@@ -12,41 +12,35 @@
       --bg: #ffffff;
       --bg-secondary: #f5f5f3;
       --bg-danger: #fcebeb;
+      --bg-success: #eaf3de;
+      --bg-info: #e6f1fb;
       --text-primary: #1a1a18;
       --text-secondary: #6b6b66;
       --text-tertiary: #9a9994;
       --text-danger: #a32d2d;
+      --text-success: #3b6d11;
+      --text-info: #185fa5;
       --border: rgba(0,0,0,0.12);
       --border-hover: rgba(0,0,0,0.25);
       --radius-md: 8px;
       --radius-lg: 12px;
       --blue: #378ADD;
-      --gold: #FAC775;
-      --gold-text: #412402;
-      --silver: #D3D1C7;
-      --silver-text: #2C2C2A;
-      --bronze: #F5C4B3;
-      --bronze-text: #4A1B0C;
+      --gold: #FAC775; --gold-text: #412402;
+      --silver: #D3D1C7; --silver-text: #2C2C2A;
+      --bronze: #F5C4B3; --bronze-text: #4A1B0C;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1e1e1c;
-        --bg-secondary: #2a2a28;
-        --bg-danger: #3a1f1f;
-        --text-primary: #f0ede8;
-        --text-secondary: #a0a09a;
-        --text-tertiary: #6b6b66;
-        --text-danger: #f09595;
-        --border: rgba(255,255,255,0.12);
-        --border-hover: rgba(255,255,255,0.25);
+        --bg: #1e1e1c; --bg-secondary: #2a2a28;
+        --bg-danger: #3a1f1f; --bg-success: #1a2e10; --bg-info: #0c2240;
+        --text-primary: #f0ede8; --text-secondary: #a0a09a; --text-tertiary: #6b6b66;
+        --text-danger: #f09595; --text-success: #97c459; --text-info: #85b7eb;
+        --border: rgba(255,255,255,0.12); --border-hover: rgba(255,255,255,0.25);
         --blue: #5ba3ed;
-        --gold: #d4a050;
-        --gold-text: #faeeda;
-        --silver: #888780;
-        --silver-text: #f1efe8;
-        --bronze: #c07060;
-        --bronze-text: #faece7;
+        --gold: #d4a050; --gold-text: #faeeda;
+        --silver: #888780; --silver-text: #f1efe8;
+        --bronze: #c07060; --bronze-text: #faece7;
       }
     }
 
@@ -58,22 +52,10 @@
       padding: 2rem 1rem;
     }
 
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-    }
+    .container { max-width: 680px; margin: 0 auto; }
 
-    h1 {
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-    }
+    h1 { font-size: 22px; font-weight: 500; margin-bottom: 0.25rem; }
+    .subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 2rem; }
 
     .card {
       background: var(--bg);
@@ -83,11 +65,61 @@
       margin-bottom: 1rem;
     }
 
-    .input-row {
+    /* Admin lock bar */
+    .admin-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--bg-secondary);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 1rem;
+    }
+    .admin-bar-left { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .lock-icon { font-size: 16px; }
+    .status-locked { color: var(--text-secondary); }
+    .status-unlocked { color: var(--text-success); }
+    .btn-admin {
+      background: none;
+      border: 0.5px solid var(--border-hover);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 5px 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background 0.1s;
+    }
+    .btn-admin:hover { background: var(--bg); }
+    .btn-admin.active { border-color: var(--text-success); color: var(--text-success); }
+
+    /* Password prompt */
+    .pw-row {
       display: flex;
       gap: 8px;
       margin-bottom: 0.5rem;
+      align-items: center;
     }
+    .pw-row input[type="password"] {
+      flex: 1;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 14px;
+      height: 36px;
+      padding: 0 12px;
+      outline: none;
+    }
+    .pw-row input:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
+    .pw-error { color: var(--text-danger); font-size: 13px; min-height: 18px; margin-bottom: 0.5rem; }
+
+    /* Input section */
+    .input-section { margin-bottom: 1rem; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 0.5rem; }
 
     input[type="text"], input[type="number"] {
       background: var(--bg);
@@ -100,11 +132,10 @@
       outline: none;
       transition: border-color 0.15s;
     }
-
     input[type="text"] { flex: 1; }
     input[type="number"] { width: 90px; }
-
     input:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
+    input:disabled { opacity: 0.4; cursor: not-allowed; }
 
     button.btn-primary {
       background: var(--bg);
@@ -121,69 +152,25 @@
       transition: background 0.1s;
       white-space: nowrap;
     }
-    button.btn-primary:hover { background: var(--bg-secondary); }
-    button.btn-primary:active { transform: scale(0.98); }
+    button.btn-primary:hover:not(:disabled) { background: var(--bg-secondary); }
+    button.btn-primary:active:not(:disabled) { transform: scale(0.98); }
+    button.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .error-msg {
-      color: var(--text-danger);
-      font-size: 13px;
-      min-height: 18px;
-      margin-bottom: 0.75rem;
-    }
+    .error-msg { color: var(--text-danger); font-size: 13px; min-height: 18px; margin-bottom: 0.75rem; }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 1rem;
-    }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+    .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 0.75rem 1rem; }
+    .stat-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .stat-val { font-size: 20px; font-weight: 500; }
 
-    .stat-card {
-      background: var(--bg-secondary);
-      border-radius: var(--radius-md);
-      padding: 0.75rem 1rem;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-bottom: 4px;
-    }
-
-    .stat-val {
-      font-size: 20px;
-      font-weight: 500;
-    }
-
-    .table-wrap {
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      table-layout: fixed;
-    }
-
+    .table-wrap { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
     th {
-      background: var(--bg-secondary);
-      color: var(--text-secondary);
-      font-size: 12px;
-      font-weight: 500;
-      padding: 8px 14px;
-      text-align: left;
-      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-secondary); color: var(--text-secondary);
+      font-size: 12px; font-weight: 500; padding: 8px 14px;
+      text-align: left; border-bottom: 0.5px solid var(--border);
     }
-
-    td {
-      padding: 10px 14px;
-      border-bottom: 0.5px solid var(--border);
-      vertical-align: middle;
-    }
-
+    td { padding: 10px 14px; border-bottom: 0.5px solid var(--border); vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--bg-secondary); }
 
@@ -193,16 +180,10 @@
     th:nth-child(5), td:nth-child(5) { width: 40px; }
 
     .rank-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      font-size: 12px;
-      font-weight: 500;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      font-size: 12px; font-weight: 500;
     }
-
     .rank-1 { background: var(--gold); color: var(--gold-text); }
     .rank-2 { background: var(--silver); color: var(--silver-text); }
     .rank-3 { background: var(--bronze); color: var(--bronze-text); }
@@ -210,101 +191,85 @@
 
     .code-cell { font-family: monospace; font-size: 14px; }
     .count-cell { font-weight: 500; font-size: 15px; }
-
-    .bar-wrap {
-      flex: 1;
-      height: 8px;
-      background: var(--bg-secondary);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      background: var(--blue);
-      border-radius: 4px;
-      transition: width 0.3s ease;
-    }
-
-    .pct-label {
-      font-size: 12px;
-      color: var(--text-secondary);
-      min-width: 34px;
-    }
-
-    .bar-cell {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .bar-cell { display: flex; align-items: center; gap: 8px; }
+    .bar-wrap { flex: 1; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--blue); border-radius: 4px; transition: width 0.3s ease; }
+    .pct-label { font-size: 12px; color: var(--text-secondary); min-width: 34px; }
 
     .btn-del {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text-tertiary);
-      font-size: 18px;
-      line-height: 1;
-      padding: 2px 4px;
-      border-radius: 4px;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-tertiary); font-size: 18px; line-height: 1;
+      padding: 2px 4px; border-radius: 4px;
     }
+    .btn-del:hover { background: var(--bg-danger); color: var(--text-danger); }
+    .btn-del:disabled { opacity: 0; pointer-events: none; }
 
-    .btn-del:hover {
-      background: var(--bg-danger);
-      color: var(--text-danger);
-    }
+    .empty-msg { text-align: center; padding: 2.5rem; color: var(--text-secondary); font-size: 14px; }
 
-    .empty-msg {
-      text-align: center;
-      padding: 2.5rem;
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
-
-    .action-row {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 0.75rem;
-    }
-
+    .action-row { display: flex; justify-content: flex-end; margin-top: 0.75rem; }
     .btn-clear {
-      background: none;
-      border: 0.5px solid var(--border-hover);
-      border-radius: var(--radius-md);
-      color: var(--text-secondary);
-      cursor: pointer;
-      font-size: 13px;
-      padding: 6px 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: none; border: 0.5px solid var(--border-hover);
+      border-radius: var(--radius-md); color: var(--text-secondary);
+      cursor: pointer; font-size: 13px; padding: 6px 14px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-clear:hover:not(:disabled) { background: var(--bg-secondary); }
+    .btn-clear:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .badge-publik {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--bg-info); color: var(--text-info);
+      font-size: 11px; padding: 3px 8px;
+      border-radius: var(--radius-md); margin-left: 8px;
     }
 
-    .btn-clear:hover { background: var(--bg-secondary); }
+    footer { text-align: center; font-size: 12px; color: var(--text-tertiary); margin-top: 2rem; }
 
-    footer {
-      text-align: center;
-      font-size: 12px;
-      color: var(--text-tertiary);
-      margin-top: 2rem;
-    }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Tracker Frekuensi Kode</h1>
-    <p class="subtitle">Masukkan kode dan jumlahnya — data otomatis diurutkan dari terbanyak ke tersedikit.</p>
+    <h1>Tracker Frekuensi Kode <span class="badge-publik"><i class="ti ti-eye" aria-hidden="true"></i> Publik</span></h1>
+    <p class="subtitle">Ranking diperbarui otomatis dari terbanyak ke tersedikit.</p>
 
     <div class="card">
-      <div class="input-row">
-        <input type="text" id="codeInput" placeholder="Masukkan kode (misal: 8032)" maxlength="30" />
-        <input type="number" id="countInput" placeholder="Jumlah" min="1" value="1" />
-        <button class="btn-primary" onclick="addCode()">
-          <i class="ti ti-plus" aria-hidden="true"></i> Tambah
+
+      <!-- Admin bar -->
+      <div class="admin-bar">
+        <div class="admin-bar-left">
+          <i class="ti ti-lock lock-icon status-locked" id="lockIcon" aria-hidden="true"></i>
+          <span id="adminStatus" class="status-locked">Mode publik — hanya bisa melihat</span>
+        </div>
+        <button class="btn-admin" id="btnAdminToggle" onclick="toggleAdminPrompt()">
+          <i class="ti ti-shield" aria-hidden="true"></i> <span id="btnAdminLabel">Masuk sebagai Admin</span>
         </button>
       </div>
-      <div class="error-msg" id="errMsg"></div>
 
+      <!-- Password prompt -->
+      <div id="pwSection" class="hidden">
+        <div class="pw-row">
+          <input type="password" id="pwInput" placeholder="Masukkan password admin..." />
+          <button class="btn-primary" onclick="submitPassword()">
+            <i class="ti ti-arrow-right" aria-hidden="true"></i> Masuk
+          </button>
+        </div>
+        <div class="pw-error" id="pwError"></div>
+      </div>
+
+      <!-- Input kode (admin only) -->
+      <div id="inputSection" class="input-section hidden">
+        <div class="input-row">
+          <input type="text" id="codeInput" placeholder="Masukkan kode (misal: 8032)" maxlength="30" />
+          <input type="number" id="countInput" placeholder="Jumlah" min="1" value="1" />
+          <button class="btn-primary" onclick="addCode()">
+            <i class="ti ti-plus" aria-hidden="true"></i> Tambah
+          </button>
+        </div>
+        <div class="error-msg" id="errMsg"></div>
+      </div>
+
+      <!-- Stats -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-label">Total kode unik</div>
@@ -320,6 +285,7 @@
         </div>
       </div>
 
+      <!-- Table -->
       <div class="table-wrap">
         <table>
           <thead>
@@ -332,24 +298,28 @@
             </tr>
           </thead>
           <tbody id="tableBody">
-            <tr><td colspan="5" class="empty-msg">Belum ada data. Masukkan kode di atas.</td></tr>
+            <tr><td colspan="5" class="empty-msg">Belum ada data.</td></tr>
           </tbody>
         </table>
       </div>
 
-      <div class="action-row">
+      <div class="action-row" id="clearRow" style="display:none;">
         <button class="btn-clear" onclick="clearAll()">
           <i class="ti ti-trash" aria-hidden="true"></i> Hapus semua
         </button>
       </div>
     </div>
 
-    <footer>Data tersimpan di browser lokal (localStorage) masing-masing pengguna.</footer>
+    <footer>Data tersimpan di browser lokal masing-masing pengguna &middot; Tampilan ranking terbuka untuk publik</footer>
   </div>
 
   <script>
-    let data = {};
+    const CORRECT_PW = 'candylucu';
     const STORAGE_KEY = 'code_tracker_v1';
+
+    let data = {};
+    let isAdmin = false;
+    let pwVisible = false;
 
     function loadData() {
       try {
@@ -363,15 +333,64 @@
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
     }
 
+    function toggleAdminPrompt() {
+      if (isAdmin) {
+        // Logout
+        isAdmin = false;
+        pwVisible = false;
+        document.getElementById('pwSection').classList.add('hidden');
+        document.getElementById('inputSection').classList.add('hidden');
+        document.getElementById('clearRow').style.display = 'none';
+        document.getElementById('lockIcon').className = 'ti ti-lock lock-icon status-locked';
+        document.getElementById('adminStatus').textContent = 'Mode publik — hanya bisa melihat';
+        document.getElementById('adminStatus').className = 'status-locked';
+        document.getElementById('btnAdminLabel').textContent = 'Masuk sebagai Admin';
+        document.getElementById('btnAdminToggle').classList.remove('active');
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwError').textContent = '';
+        render();
+        return;
+      }
+      pwVisible = !pwVisible;
+      document.getElementById('pwSection').classList.toggle('hidden', !pwVisible);
+      if (pwVisible) {
+        document.getElementById('pwInput').focus();
+        document.getElementById('pwError').textContent = '';
+      }
+    }
+
+    function submitPassword() {
+      const val = document.getElementById('pwInput').value;
+      if (val === CORRECT_PW) {
+        isAdmin = true;
+        pwVisible = false;
+        document.getElementById('pwSection').classList.add('hidden');
+        document.getElementById('inputSection').classList.remove('hidden');
+        document.getElementById('clearRow').style.display = 'flex';
+        document.getElementById('lockIcon').className = 'ti ti-shield-check lock-icon status-unlocked';
+        document.getElementById('adminStatus').textContent = 'Mode admin — dapat menambah & menghapus data';
+        document.getElementById('adminStatus').className = 'status-unlocked';
+        document.getElementById('btnAdminLabel').textContent = 'Keluar Admin';
+        document.getElementById('btnAdminToggle').classList.add('active');
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwError').textContent = '';
+        document.getElementById('codeInput').focus();
+        render();
+      } else {
+        document.getElementById('pwError').textContent = 'Password salah. Coba lagi.';
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwInput').focus();
+      }
+    }
+
     function addCode() {
+      if (!isAdmin) return;
       const code = document.getElementById('codeInput').value.trim();
       const count = parseInt(document.getElementById('countInput').value) || 1;
       const err = document.getElementById('errMsg');
-
       if (!code) { err.textContent = 'Kode tidak boleh kosong.'; return; }
       if (count < 1 || count > 9999) { err.textContent = 'Jumlah harus antara 1 – 9999.'; return; }
       err.textContent = '';
-
       data[code] = (data[code] || 0) + count;
       saveData();
       render();
@@ -381,12 +400,14 @@
     }
 
     function deleteCode(code) {
+      if (!isAdmin) return;
       delete data[code];
       saveData();
       render();
     }
 
     function clearAll() {
+      if (!isAdmin) return;
       if (!Object.keys(data).length) return;
       if (confirm('Hapus semua data?')) { data = {}; saveData(); render(); }
     }
@@ -405,7 +426,7 @@
 
       const tbody = document.getElementById('tableBody');
       if (!sorted.length) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">Belum ada data. Masukkan kode di atas.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">Belum ada data.</td></tr>';
         return;
       }
 
@@ -413,7 +434,7 @@
         const rank = i + 1;
         const pct = total ? Math.round(count / total * 100) : 0;
         const barW = Math.round(count / max * 100);
-        const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : 'rank-n';
+        const rankClass = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
         return `<tr>
           <td><span class="rank-badge ${rankClass}">${rank}</span></td>
           <td class="code-cell">${esc(code)}</td>
@@ -422,13 +443,18 @@
             <div class="bar-wrap"><div class="bar-fill" style="width:${barW}%"></div></div>
             <span class="pct-label">${pct}%</span>
           </div></td>
-          <td><button class="btn-del" onclick="deleteCode('${escAttr(code)}')" aria-label="Hapus ${esc(code)}">×</button></td>
+          <td><button class="btn-del" onclick="deleteCode('${escAttr(code)}')" ${isAdmin?'':'disabled'} aria-label="Hapus ${esc(code)}">×</button></td>
         </tr>`;
       }).join('');
     }
 
-    document.getElementById('codeInput').addEventListener('keydown', e => { if (e.key === 'Enter') addCode(); });
-    document.getElementById('countInput').addEventListener('keydown', e => { if (e.key === 'Enter') addCode(); });
+    document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') submitPassword(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && isAdmin) {
+        if (document.activeElement === document.getElementById('codeInput') ||
+            document.activeElement === document.getElementById('countInput')) addCode();
+      }
+    });
 
     loadData();
   </script>
