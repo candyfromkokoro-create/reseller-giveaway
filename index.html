@@ -3,780 +3,585 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>hallokokoro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <title>Kokoro & Licentia Giveaway</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css" />
   <style>
-    @font-face {
-      font-family: 'Muthiara';
-      src: url('fonts/Muthiara demo version.otf') format('opentype');
-    }
-    @font-face {
-      font-family: 'PorkS';
-      src: url('fonts/PORKYS_.TTF') format('truetype');
-    }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #faf4fd;
-      --card: #ffffff;
-      --pink: #e896c0; --pink-light: #fce8f4; --pink-mid: #f4c0dc; --pink-dark: #c0609a;
-      --purple: #b898d8; --purple-light: #efe4fc; --purple-mid: #d8c0f0; --purple-dark: #8048b0;
-      --text: #503060; --text-sub: #a07ab8; --text-light: #c8b0d8;
-      --grad: linear-gradient(135deg, #e896c0, #b898d8);
-      --radius: 18px; --radius-sm: 12px;
+      --bg-page: linear-gradient(135deg, #FFE3F5 0%, #FDEDFF 50%, #fff0fb 100%);
+      --bg: #ffffff;
+      --bg-secondary: #FFE3F5;
+      --bg-accent: #FDEDFF;
+      --bg-danger: #fce8f0;
+      --text-primary: #3a1a2e;
+      --text-secondary: #9b6b88;
+      --text-tertiary: #c4a0b8;
+      --text-danger: #a32d2d;
+      --text-success: #3b6d11;
+      --border: rgba(255,150,200,0.25);
+      --border-hover: rgba(255,120,180,0.5);
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --pink: #e879a0;
+      --gold: #f5c842; --gold-text: #4a3200;
+      --silver: #d4d0c8; --silver-text: #2c2c2a;
+      --bronze: #f0b48a; --bronze-text: #4a1b0c;
     }
+
     body {
-      font-family: 'Josefin Sans', sans-serif;
-      background: linear-gradient(160deg, #fdf0fa 0%, #f4eafc 50%, #fdf0fa 100%);
-      color: var(--text); min-height: 100vh; letter-spacing: 0.3px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
     }
 
-    .page { display: none; min-height: 100vh; padding: 0 0 5rem; }
-    .page.active { display: block; }
-    .container { max-width: 480px; margin: 0 auto; padding: 0 1rem; }
+    .container { max-width: 680px; margin: 0 auto; }
 
-    /* PAGE HEADER */
-    .page-header {
-      position: relative; text-align: center;
-      padding: 1.75rem 1rem 1.4rem; overflow: hidden;
-      margin-bottom: 1rem;
+    /* Tab switcher */
+    .tab-switcher {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 6px;
     }
-    .page-header .deco { position: absolute; opacity: 0.72; pointer-events: none; }
-    .title-wrap { display: inline-block; line-height: 1; position: relative; z-index: 2; }
-    .title-line1 {
-      font-family: 'Muthiara', cursive;
-      font-size: 46px; color: #e8a8cc;
-      display: block; line-height: 1;
+    .tab-btn {
+      flex: 1; padding: 10px 16px;
+      border: none; border-radius: var(--radius-md);
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; background: transparent; color: var(--text-secondary);
     }
-    .title-line2 {
-      font-family: 'PorkS', cursive;
-      font-size: 24px; color: #b898d8;
-      display: block; line-height: 1;
-      margin-top: -10px; letter-spacing: 2px;
+    .tab-btn.active {
+      background: linear-gradient(135deg, #f472b6, #c084fc);
+      color: #fff; box-shadow: 0 2px 8px rgba(196,132,252,0.3);
+    }
+    .tab-btn:not(.active):hover { background: var(--bg-secondary); color: var(--text-primary); }
+
+    /* Panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 1.5rem; }
+    .header h1 { font-size: 26px; font-weight: 700; color: var(--text-primary); margin-bottom: 0.25rem; }
+
+    /* Cards */
+    .info-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(232,121,160,0.08);
     }
 
-    /* HOME */
-    .home-body { padding: 1.5rem 1rem; }
-    .window {
-      background: var(--card); border: 1px solid var(--pink-mid);
-      border-radius: var(--radius); box-shadow: 0 6px 28px rgba(180,120,200,0.1);
-      overflow: hidden;
+    .prize-title { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; }
+    .prize-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .prize-item {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-secondary); border-radius: var(--radius-md); padding: 10px 14px;
     }
-    .window-bar {
-      background: linear-gradient(90deg, var(--pink-light), var(--purple-light));
-      padding: 9px 14px; display: flex; align-items: center; justify-content: space-between;
+    .prize-rank {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; flex-shrink: 0;
     }
-    .window-dots { display: flex; gap: 6px; }
-    .window-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(180,120,200,0.3); }
-    .window-icons { font-size: 13px; color: var(--text-light); display: flex; gap: 10px; }
-    .window-body { padding: 1.5rem; }
+    .prize-rank.r1 { background: var(--gold); color: var(--gold-text); }
+    .prize-rank.r2 { background: var(--silver); color: var(--silver-text); }
+    .prize-rank.r3 { background: var(--bronze); color: var(--bronze-text); }
+    .prize-rank.r4 { background: #e8d5f5; color: #5a2d8a; }
+    .prize-amount { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+    .prize-label { font-size: 11px; color: var(--text-secondary); }
 
-    .profile-section { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.5rem; }
-    .profile-img-wrap {
-      flex-shrink: 0; width: 105px; height: 105px;
-      border-radius: var(--radius-sm); border: 1.5px solid var(--purple-mid);
-      overflow: hidden; background: var(--purple-light);
-    }
-    .profile-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 36px; color: var(--pink); }
-    .profile-info { flex: 1; padding-top: 6px; }
-    .profile-name { font-size: 22px; font-weight: 600; color: var(--pink-dark); font-style: italic; margin-bottom: 8px; letter-spacing: 1px; }
-    .profile-desc { font-size: 12px; color: var(--text-sub); line-height: 1.8; font-weight: 300; }
+    .tc-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; }
+    .tc-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+    .tc-list li { font-size: 13px; color: var(--text-secondary); line-height: 1.5; padding-left: 18px; position: relative; }
+    .tc-list li::before { content: '⌗'; position: absolute; left: 0; color: var(--pink); font-size: 12px; }
 
-    .btn-list { display: flex; flex-direction: column; gap: 9px; }
-    .btn-item {
+    .poin-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .poin-grid { display: flex; flex-direction: column; gap: 5px; }
+    .poin-row {
       display: flex; align-items: center; justify-content: space-between;
-      border: 1px solid transparent; border-radius: 50px; padding: 11px 20px;
-      cursor: pointer; transition: all 0.2s;
-      font-family: 'Josefin Sans', sans-serif; font-size: 13px; font-weight: 400;
-      color: var(--text); text-decoration: none; letter-spacing: 1px;
+      background: var(--bg-accent); border-radius: 8px; padding: 7px 12px; font-size: 13px;
     }
-    .btn-item.pk { background: var(--pink-light); }
-    .btn-item.pv { background: var(--purple-light); }
-    .btn-item.pk:hover { border-color: var(--pink); background: #fad4ec; transform: translateY(-1px); }
-    .btn-item.pv:hover { border-color: var(--purple); background: #e4d4f8; transform: translateY(-1px); }
-    .btn-item .btn-arrow { font-size: 12px; color: var(--text-light); }
+    .poin-row .range { color: var(--text-secondary); }
+    .poin-row .pts { font-weight: 600; color: var(--pink); background: var(--bg-secondary); border-radius: 6px; padding: 2px 10px; font-size: 12px; }
 
-    /* BACK */
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--purple-light); border: none; border-radius: 50px; padding: 8px 18px;
-      font-family: 'Josefin Sans', sans-serif; font-size: 12px; font-weight: 400;
-      letter-spacing: 1px; color: var(--text-sub); cursor: pointer; margin: 1rem 1rem 0;
-      transition: background 0.15s;
+    /* Tracker */
+    .tracker-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem;
+      margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(232,121,160,0.08);
     }
-    .back-btn:hover { background: var(--purple-mid); }
 
-    /* APP BTNS */
-    .app-btn-list { display: flex; flex-direction: column; gap: 8px; }
-    .app-btn {
-      border: 1px solid transparent; border-radius: 50px; padding: 0 20px;
-      height: 44px; font-family: 'Josefin Sans', sans-serif;
-      font-size: 13px; font-weight: 400; color: var(--text);
-      cursor: pointer; text-align: center; transition: all 0.2s;
-      letter-spacing: 1px; display: flex; align-items: center; justify-content: center;
-    }
-    .app-btn:nth-child(odd) { background: var(--pink-light); }
-    .app-btn:nth-child(even) { background: var(--purple-light); }
-    .app-btn:nth-child(odd):hover { border-color: var(--pink); background: #fad4ec; transform: translateY(-1px); }
-    .app-btn:nth-child(even):hover { border-color: var(--purple); background: #e4d4f8; transform: translateY(-1px); }
-
-    /* PRICELIST GRID */
-    .pl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    @media (max-width: 360px) { .pl-grid { grid-template-columns: 1fr; } }
-
-    .pl-card {
-      background: white; border-radius: var(--radius-sm);
-      padding: 1rem 0.75rem 0.85rem; position: relative;
-    }
-    .pl-card.pk { border: 1.5px solid var(--pink-mid); }
-    .pl-card.pv { border: 1.5px solid var(--purple-mid); }
-
-    /* SVG deco positions */
-    .pl-card .deco-tl { position: absolute; top: -10px; left: 8px; }
-    .pl-card .deco-tr { position: absolute; top: -10px; right: 8px; }
-
-    .pl-title {
-      font-size: 11px; font-weight: 600; text-align: center;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      margin-bottom: 8px; padding-bottom: 6px;
-    }
-    .pk .pl-title { color: var(--pink-dark); border-bottom: 1px solid rgba(232,150,192,0.3); }
-    .pv .pl-title { color: var(--purple-dark); border-bottom: 1px solid rgba(184,152,216,0.3); }
-
-    .pl-sub {
-      font-size: 9.5px; font-weight: 600; color: var(--purple-dark);
-      text-align: center; letter-spacing: 1px; margin: 6px 0 3px;
-      display: flex; align-items: center; gap: 3px;
-    }
-    .pl-sub::before, .pl-sub::after { content: ''; flex: 1; height: 1px; background: rgba(184,152,216,0.3); }
-
-    .pl-row {
-      display: flex; align-items: baseline; margin-bottom: 3px;
-      padding: 2px 5px; border-radius: 6px;
-    }
-    .pk .pl-row { background: rgba(253,232,244,0.5); }
-    .pv .pl-row { background: rgba(239,228,252,0.5); }
-    .pl-dur { font-size: 9.5px; color: var(--text-sub); white-space: nowrap; min-width: 36px; flex-shrink: 0; }
-    .pl-dots { flex: 1; border-bottom: 1.5px dotted rgba(184,152,216,0.4); margin: 0 4px; margin-bottom: 3px; }
-    .pl-price { font-size: 9.5px; font-weight: 600; white-space: nowrap; }
-    .pk .pl-price { color: var(--pink-dark); }
-    .pv .pl-price { color: var(--purple-dark); }
-
-    .pl-sep { text-align: center; font-size: 9px; color: rgba(184,152,216,0.4); letter-spacing: 3px; margin: 3px 0; }
-    .pl-empty { text-align: center; padding: 1rem; color: var(--text-light); font-size: 11px; font-style: italic; }
-
-    /* ADMIN */
     .admin-bar {
       display: flex; align-items: center; justify-content: space-between;
-      background: linear-gradient(90deg, var(--pink-light), var(--purple-light));
-      border-radius: var(--radius-sm); padding: 8px 14px; margin: 0.75rem 0;
+      padding: 10px 14px; background: var(--bg-secondary);
+      border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 1rem;
     }
-    .admin-status { font-size: 11px; color: var(--text-sub); font-weight: 300; letter-spacing: 0.5px; }
-    .admin-status.unlocked { color: #5a8a40; }
-    .btn-admin-toggle {
-      background: white; border: 1px solid var(--purple-mid);
-      border-radius: 50px; font-size: 10px; color: var(--text-sub);
-      padding: 4px 12px; cursor: pointer; font-family: 'Josefin Sans', sans-serif;
+    .admin-bar-left { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+    .status-locked { color: var(--text-secondary); }
+    .status-unlocked { color: var(--text-success); }
+    .btn-admin {
+      background: #fff; border: 1px solid var(--border-hover);
+      border-radius: var(--radius-md); color: var(--text-secondary);
+      cursor: pointer; font-size: 12px; padding: 5px 12px;
+      display: inline-flex; align-items: center; gap: 5px; transition: background 0.1s;
     }
-    .btn-admin-toggle.active { border-color: #5a8a40; color: #5a8a40; }
-    .pw-row { display: flex; gap: 8px; margin-bottom: 0.5rem; }
-    .pw-row input {
-      flex: 1; background: white; border: 1px solid var(--purple-mid);
-      border-radius: var(--radius-sm); color: var(--text);
-      font-size: 12px; height: 34px; padding: 0 12px; outline: none;
-      font-family: 'Josefin Sans', sans-serif;
-    }
-    .pw-row input:focus { border-color: var(--purple); }
-    .pw-btn {
-      background: var(--grad); border: none; border-radius: var(--radius-sm);
-      color: white; font-size: 11px; padding: 0 14px; cursor: pointer;
-      font-family: 'Josefin Sans', sans-serif;
-    }
-    .pw-error { color: #c05050; font-size: 11px; margin-bottom: 0.5rem; }
+    .btn-admin:hover { background: var(--bg-accent); }
+    .btn-admin.active { border-color: var(--text-success); color: var(--text-success); }
 
-    /* ADMIN EDIT */
-    .edit-section { margin-top: 0.75rem; }
-    .edit-item {
-      background: var(--purple-light); border: 1px solid var(--purple-mid);
-      border-radius: var(--radius-sm); padding: 10px; margin-bottom: 8px;
+    .pw-row { display: flex; gap: 8px; margin-bottom: 0.5rem; align-items: center; }
+    .pw-row input[type="password"] {
+      flex: 1; background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-md); color: var(--text-primary);
+      font-size: 14px; height: 36px; padding: 0 12px; outline: none;
     }
-    .edit-label { font-size: 10px; color: var(--text-sub); margin-bottom: 4px; letter-spacing: 0.5px; }
-    .edit-item input {
-      width: 100%; background: white; border: 1px solid var(--pink-mid);
-      border-radius: 8px; color: var(--text); font-size: 12px;
-      padding: 7px 10px; outline: none; margin-bottom: 6px;
-      font-family: 'Josefin Sans', sans-serif; text-align: center;
-    }
-    .edit-item textarea {
-      width: 100%; background: white; border: 1px solid var(--pink-mid);
-      border-radius: 8px; color: var(--text); font-size: 12px;
-      padding: 7px 10px; outline: none;
-      font-family: 'Josefin Sans', sans-serif; text-align: center;
-      resize: vertical; min-height: 80px; line-height: 1.8; white-space: pre-wrap;
-    }
-    .edit-item-actions { display: flex; justify-content: flex-end; }
-    .btn-del-item {
-      background: none; border: 1px solid rgba(192,80,80,0.3);
-      border-radius: 6px; color: #c05050; font-size: 11px;
-      padding: 3px 10px; cursor: pointer; font-family: 'Josefin Sans', sans-serif;
-    }
-    .btn-del-item:hover { background: #fce8e8; }
-    .btn-add-item {
-      width: 100%; background: white; border: 1.5px dashed var(--purple);
-      border-radius: var(--radius-sm); color: var(--purple-dark);
-      font-size: 12px; padding: 9px; cursor: pointer; margin-top: 4px;
-      font-family: 'Josefin Sans', sans-serif;
-    }
-    .btn-add-item:hover { background: var(--purple-light); }
-    .btn-save {
-      width: 100%; background: var(--grad); border: none;
-      border-radius: var(--radius-sm); color: white;
-      font-size: 12px; font-weight: 600; padding: 10px;
-      cursor: pointer; margin-top: 8px; font-family: 'Josefin Sans', sans-serif;
-    }
-    .btn-save:hover { opacity: 0.88; }
-    .save-msg { font-size: 11px; color: #5a8a40; text-align: center; margin-top: 6px; }
+    .pw-row input:focus { border-color: var(--pink); box-shadow: 0 0 0 2px rgba(232,121,160,0.15); }
+    .pw-error { color: var(--text-danger); font-size: 13px; min-height: 18px; margin-bottom: 0.5rem; }
 
-    /* 2 COL (topup, sosmed) */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 400px) { .two-col { grid-template-columns: 1fr; } }
-    .col-card { background: var(--card); border-radius: var(--radius); padding: 1rem; }
-    .col-card:nth-child(odd) { border: 1px solid var(--pink-mid); }
-    .col-card:nth-child(even) { border: 1px solid var(--purple-mid); }
-    .col-title {
-      font-size: 11px; font-weight: 600; text-align: center;
-      margin-bottom: 0.75rem; padding-bottom: 8px; letter-spacing: 2px;
+    .input-section { margin-bottom: 1rem; }
+    .input-row { display: flex; gap: 8px; margin-bottom: 0.5rem; }
+    input[type="text"], input[type="number"] {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-md); color: var(--text-primary);
+      font-size: 14px; height: 36px; padding: 0 12px; outline: none; transition: border-color 0.15s;
     }
-    .col-card:nth-child(odd) .col-title { color: var(--pink-dark); border-bottom: 1px solid var(--pink-mid); }
-    .col-card:nth-child(even) .col-title { color: var(--purple-dark); border-bottom: 1px solid var(--purple-mid); }
+    input[type="text"] { flex: 1; }
+    input[type="number"] { width: 90px; }
+    input:focus { border-color: var(--pink); box-shadow: 0 0 0 2px rgba(232,121,160,0.15); }
+    input:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .loading-msg { text-align: center; padding: 1.5rem; color: var(--text-light); font-size: 12px; font-style: italic; }
+    button.btn-primary {
+      background: linear-gradient(135deg, #f472b6, #c084fc);
+      border: none; border-radius: var(--radius-md); color: #fff;
+      cursor: pointer; font-size: 14px; height: 36px; padding: 0 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: opacity 0.1s; white-space: nowrap; font-weight: 500;
+    }
+    button.btn-primary:hover:not(:disabled) { opacity: 0.88; }
+    button.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .error-msg { color: var(--text-danger); font-size: 13px; min-height: 18px; margin-bottom: 0.75rem; }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+    .stat-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 0.75rem 1rem; }
+    .stat-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .stat-val { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+
+    .table-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+    th {
+      background: var(--bg-secondary); color: var(--text-secondary);
+      font-size: 12px; font-weight: 500; padding: 8px 14px;
+      text-align: left; border-bottom: 1px solid var(--border);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fff8fd; }
+    th:nth-child(1), td:nth-child(1) { width: 52px; }
+    th:nth-child(2), td:nth-child(2) { width: 100px; }
+    th:nth-child(3), td:nth-child(3) { width: 70px; }
+    th:nth-child(5), td:nth-child(5) { width: 40px; }
+
+    .rank-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 600;
+    }
+    .rank-1 { background: var(--gold); color: var(--gold-text); }
+    .rank-2 { background: var(--silver); color: var(--silver-text); }
+    .rank-3 { background: var(--bronze); color: var(--bronze-text); }
+    .rank-n { background: var(--bg-secondary); color: var(--text-secondary); }
+
+    .code-cell { font-family: monospace; font-size: 14px; font-weight: 500; }
+    .count-cell { font-weight: 600; font-size: 15px; color: var(--pink); }
+    .bar-cell { display: flex; align-items: center; gap: 8px; }
+    .bar-wrap { flex: 1; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(90deg, #f472b6, #c084fc); border-radius: 4px; transition: width 0.3s ease; }
+    .pct-label { font-size: 12px; color: var(--text-secondary); min-width: 34px; }
+
+    .btn-del {
+      background: none; border: none; cursor: pointer;
+      color: var(--text-tertiary); font-size: 18px; line-height: 1; padding: 2px 4px; border-radius: 4px;
+    }
+    .btn-del:hover { background: var(--bg-danger); color: var(--text-danger); }
+    .btn-del:disabled { opacity: 0; pointer-events: none; }
+
+    .empty-msg { text-align: center; padding: 2.5rem; color: var(--text-secondary); font-size: 14px; }
+    .loading-msg { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 14px; }
+
+    .action-row { display: flex; justify-content: space-between; align-items: center; margin-top: 0.75rem; }
+    .btn-clear {
+      background: none; border: 1px solid var(--border-hover);
+      border-radius: var(--radius-md); color: var(--text-secondary);
+      cursor: pointer; font-size: 13px; padding: 6px 14px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-clear:hover { background: var(--bg-secondary); }
+    .btn-refresh {
+      background: none; border: 1px solid var(--border-hover);
+      border-radius: var(--radius-md); color: var(--text-secondary);
+      cursor: pointer; font-size: 13px; padding: 6px 14px;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-refresh:hover { background: var(--bg-secondary); }
+    .sync-msg { font-size: 12px; color: var(--text-tertiary); }
+
+    footer { text-align: center; font-size: 13px; color: var(--text-secondary); margin-top: 2rem; }
+    footer a { color: var(--pink); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
     @keyframes spin { to { transform: rotate(360deg); } }
-    .spin { display: inline-block; animation: spin 1s linear infinite; }
-
-    /* FOOTER */
-    .footer-btns { display: flex; gap: 10px; justify-content: center; padding: 1.5rem 0 0.5rem; }
-    .footer-btn {
-      display: flex; align-items: center; gap: 6px; padding: 9px 22px; border-radius: 50px;
-      font-family: 'Josefin Sans', sans-serif; font-size: 12px; font-weight: 600;
-      letter-spacing: 1px; text-decoration: none; transition: opacity 0.15s;
-    }
-    .footer-btn:hover { opacity: 0.85; }
-    .footer-btn.wa { background: #25d366; color: white; }
-    .footer-btn.tg { background: #229ed9; color: white; }
-    .footer-credit { text-align: center; font-size: 10px; color: var(--text-light); padding-bottom: 1rem; letter-spacing: 1px; }
-
+    .spinning { animation: spin 1s linear infinite; display: inline-block; }
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
-
-<!-- HOME -->
-<div class="page active" id="page-home">
   <div class="container">
-    <div class="home-body" style="padding-top:2rem;">
-      <div class="window">
-        <div class="window-bar">
-          <div class="window-dots"><div class="window-dot"></div><div class="window-dot"></div><div class="window-dot"></div></div>
-          <div class="window-icons">✉ ♡ ✕</div>
-        </div>
-        <div class="window-body">
-          <div class="profile-section">
-            <div class="profile-img-wrap">
-              <img src="avatar.png" alt="candy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-              <div class="profile-img-placeholder" style="display:none">✦</div>
-            </div>
-            <div class="profile-info">
-              <div class="profile-name">candy</div>
-              <div class="profile-desc">Welcome to hallokokoro! come on, I'll take you on a tour of our store!</div>
-            </div>
-          </div>
-          <div class="btn-list">
-            
-            <div class="btn-item pv" onclick="goTo('page-app')"><span>price list app</span><span class="btn-arrow">→</span></div>
-            <div class="btn-item pk" onclick="goTo('page-topup')"><span>price list topup</span><span class="btn-arrow">→</span></div>
-            <div class="btn-item pk" onclick="goTo('page-sosmed')"><span>price list sosmed needs</span><span class="btn-arrow">→</span></div>
-            <a class="btn-item pv" href="https://t.me/hallokokoroprof" target="_blank"><span>testimony</span><span class="btn-arrow">→</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-btns">
-        <a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a>
-        <a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a>
-      </div>
-      <div class="footer-credit">@hallokokoro on telegram</div>
+
+    <!-- Tab Switcher -->
+    <div class="tab-switcher">
+      <button class="tab-btn active" onclick="switchTab('kokoro')">🎀 Kokoro Giveaway</button>
+      <button class="tab-btn" onclick="switchTab('licentia')">🌸 Licentia Giveaway</button>
     </div>
-  </div>
-</div>
 
-<!-- APP -->
-<div class="page" id="page-app">
-  <button class="back-btn" onclick="goTo('page-home')">← kembali</button>
-  <div class="page-header" id="header-app">
-    <div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">app</span></div>
-  </div>
-  <div class="container">
-    <div class="window">
-      <div class="window-body">
-        <div class="app-btn-list">
-          <div class="app-btn" onclick="goTo('page-app-streaming')">streaming</div>
-          <div class="app-btn" onclick="goTo('page-app-editing')">editing</div>
-          <div class="app-btn" onclick="goTo('page-app-education')">education</div>
-          <div class="app-btn" onclick="goTo('page-app-music')">music</div>
-          <div class="app-btn" onclick="goTo('page-app-other')">lain-lain</div>
+    <!-- ===== KOKORO GIVEAWAY ===== -->
+    <div class="tab-panel active" id="panel-kokoro">
+      <div class="header">
+        <h1>🎀 Kokoro Giveaway 🎀</h1>
+      </div>
+
+      <div class="info-card">
+        <div class="prize-title">hadiah! ꒰ ˆ ꒵ ˆ꒱ ⟡</div>
+        <div class="prize-list">
+          <div class="prize-item"><div class="prize-rank r1">1</div><div><div class="prize-amount">Rp 40.000</div><div class="prize-label">Peringkat 1</div></div></div>
+          <div class="prize-item"><div class="prize-rank r2">2</div><div><div class="prize-amount">Rp 30.000</div><div class="prize-label">Peringkat 2</div></div></div>
+          <div class="prize-item"><div class="prize-rank r3">3</div><div><div class="prize-amount">Rp 20.000</div><div class="prize-label">Peringkat 3</div></div></div>
+          <div class="prize-item"><div class="prize-rank r4">4</div><div><div class="prize-amount">Rp 10.000</div><div class="prize-label">Peringkat 4</div></div></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="tc-title">💭 ໒ັ term and condition</div>
+        <ul class="tc-list">
+          <li>setiap kali kamu melakukan transaksi di kokoro/licentia, kamu akan mendapatkan poin</li>
+          <li>semakin banyak poin kamu, semakin tinggi peringkat kamu!</li>
+          <li>pemenang give away akan diumumkan tanggal 1 di bulan berikutnya</li>
+          <li>code adalah 3-5 digit terakhir nomor whatsapp reseller</li>
+          <li>poin dihitung berdasarkan orderan reseller selama 1 bulan</li>
+        </ul>
+        <div class="poin-title">꒱ Sistem Poin</div>
+        <div class="poin-grid">
+          <div class="poin-row"><span class="range">Transaksi 100p – 5k</span><span class="pts">1 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 6k – 30k</span><span class="pts">2 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 31k – 50k</span><span class="pts">3 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 50k – 100k</span><span class="pts">4 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi diatas 100k</span><span class="pts">5 poin</span></div>
+        </div>
+      </div>
+
+      <div class="tracker-card">
+        <div class="admin-bar">
+          <div class="admin-bar-left">
+            <i class="ti ti-lock" id="lockIcon-kokoro" style="font-size:16px"></i>
+            <span id="adminStatus-kokoro" class="status-locked">Mode publik — hanya bisa melihat</span>
+          </div>
+          <button class="btn-admin" id="btnAdminToggle-kokoro" onclick="toggleAdmin('kokoro')">
+            <i class="ti ti-shield"></i> <span id="btnAdminLabel-kokoro">Masuk sebagai Admin</span>
+          </button>
+        </div>
+        <div id="pwSection-kokoro" class="hidden">
+          <div class="pw-row">
+            <input type="password" id="pwInput-kokoro" placeholder="Masukkan password admin..." />
+            <button class="btn-primary" onclick="submitPw('kokoro')"><i class="ti ti-arrow-right"></i> Masuk</button>
+          </div>
+          <div class="pw-error" id="pwError-kokoro"></div>
+        </div>
+        <div id="inputSection-kokoro" class="input-section hidden">
+          <div class="input-row">
+            <input type="text" id="codeInput-kokoro" placeholder="Kode (3-5 digit terakhir WA)" maxlength="10" />
+            <input type="number" id="countInput-kokoro" placeholder="Poin" min="1" value="1" />
+            <button class="btn-primary" id="btnTambah-kokoro" onclick="addCode('kokoro')"><i class="ti ti-plus"></i> Tambah</button>
+          </div>
+          <div class="error-msg" id="errMsg-kokoro"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-label">Total peserta</div><div class="stat-val" id="statUnique-kokoro">—</div></div>
+          <div class="stat-card"><div class="stat-label">Total poin</div><div class="stat-val" id="statTotal-kokoro">—</div></div>
+          <div class="stat-card"><div class="stat-label">Peringkat 1</div><div class="stat-val" id="statTop-kokoro">—</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Rank</th><th>Kode</th><th>Poin</th><th>Proporsi</th><th></th></tr></thead>
+            <tbody id="tableBody-kokoro">
+              <tr><td colspan="5" class="loading-msg"><i class="ti ti-refresh spinning"></i> Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="action-row">
+          <button class="btn-refresh" onclick="fetchData('kokoro')"><i class="ti ti-refresh"></i> Refresh</button>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="sync-msg" id="syncMsg-kokoro"></span>
+            <button class="btn-clear hidden" id="btnClear-kokoro" onclick="clearAll('kokoro')"><i class="ti ti-trash"></i> Hapus semua</button>
+          </div>
         </div>
       </div>
     </div>
-    <div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div>
-  </div>
-</div>
 
-<!-- APP SUB PAGES -->
-<div class="page" id="page-app-streaming">
-  <button class="back-btn" onclick="goTo('page-app')">← kembali</button>
-  <div class="page-header" id="header-streaming"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">streaming</span></div></div>
-  <div class="container"><div class="pl-grid" id="content-customer_streaming"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div><div id="adminsec-customer_streaming"></div><div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div></div>
-</div>
-
-<div class="page" id="page-app-editing">
-  <button class="back-btn" onclick="goTo('page-app')">← kembali</button>
-  <div class="page-header" id="header-editing"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">editing</span></div></div>
-  <div class="container"><div class="pl-grid" id="content-customer_editing"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div><div id="adminsec-customer_editing"></div><div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div></div>
-</div>
-
-<div class="page" id="page-app-education">
-  <button class="back-btn" onclick="goTo('page-app')">← kembali</button>
-  <div class="page-header" id="header-education"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">education</span></div></div>
-  <div class="container"><div class="pl-grid" id="content-customer_education"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div><div id="adminsec-customer_education"></div><div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div></div>
-</div>
-
-<div class="page" id="page-app-music">
-  <button class="back-btn" onclick="goTo('page-app')">← kembali</button>
-  <div class="page-header" id="header-music"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">music</span></div></div>
-  <div class="container"><div class="pl-grid" id="content-customer_music"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div><div id="adminsec-customer_music"></div><div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div></div>
-</div>
-
-<div class="page" id="page-app-other">
-  <button class="back-btn" onclick="goTo('page-app')">← kembali</button>
-  <div class="page-header" id="header-other"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">lain-lain</span></div></div>
-  <div class="container"><div class="pl-grid" id="content-customer_other"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div><div id="adminsec-customer_other"></div><div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div></div>
-</div>
-
-<!-- TOPUP -->
-<div class="page" id="page-topup">
-  <button class="back-btn" onclick="goTo('page-home')">← kembali</button>
-  <div class="page-header"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">topup</span></div></div>
-  <div class="container">
-    <div id="adminsec-customer_mlbb"></div><div id="adminsec-customer_robux"></div>
-    <div class="pl-grid" id="content-topup_mlbb_robux"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div>
-    
-    <div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div>
-  </div>
-</div>
-
-<!-- SOSMED -->
-<div class="page" id="page-sosmed">
-  <button class="back-btn" onclick="goTo('page-home')">← kembali</button>
-  <div class="page-header"><div class="title-wrap"><span class="title-line1">price list</span><span class="title-line2">sosmed needs</span></div></div>
-  <div class="container">
-    <div id="adminsec-customer_instagram"></div><div id="adminsec-customer_tiktok"></div>
-    <div class="pl-grid" id="content-sosmed_ig_tiktok"><div class="loading-msg" style="grid-column:1/-1"><span class="spin">↻</span> memuat...</div></div>
-    
-    <div class="footer-btns"><a class="footer-btn wa" href="https://wa.me/6285190818032" target="_blank">whatsapp</a><a class="footer-btn tg" href="https://t.me/hallokokoro" target="_blank">telegram</a></div>
-  </div>
-</div>
-
-<script>
-const API='https://script.google.com/macros/s/AKfycbx3ZDa0PnhCsUiI89m0PKZ6PsYeRsxtoKRwZlWRJi2i8-P5fWtth2HFMFRU50vhxQWS2w/exec';
-const PW='candylucu';
-const SINGLE=['customer_streaming','customer_editing','customer_education','customer_music','customer_other','customer_mlbb','customer_robux','customer_instagram','customer_tiktok'];
-
-// All 17 SVG decos (pairs: [tl, tr])
-const DECOS = [
-  // cherry + star
-  [`<svg width="22" height="22" viewBox="0 0 34 34"><circle cx="10" cy="24" r="7" fill="#f9b8cc"/><circle cx="22" cy="26" r="7" fill="#f9b8cc"/><path d="M10,17 C12,8 20,8 22,19" fill="none" stroke="#9ecf9e" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="17" r="2" fill="#9ecf9e"/></svg>`,
-   `<svg width="20" height="20" viewBox="0 0 18 18"><polygon points="9,1 11,7 17,7 12,11 14,17 9,13 4,17 6,11 1,7 7,7" fill="#d8c0f0"/></svg>`],
-  // heart + bow
-  [`<svg width="22" height="20" viewBox="0 0 36 36"><path d="M18,30 C18,30 4,20 4,11 C4,6 8,3 12,4 C14,5 16,7 18,9 C20,7 22,5 24,4 C28,3 32,6 32,11 C32,20 18,30 18,30Z" fill="#f4a8cc"/><path d="M12,8 C10,9 9,11 9,13" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg>`,
-   `<svg width="24" height="20" viewBox="0 0 36 36"><path d="M2,10 C8,14 14,18 18,18 C14,18 8,22 2,26 C4,22 4,14 2,10Z" fill="#e8c0f0"/><path d="M34,10 C28,14 22,18 18,18 C22,18 28,22 34,26 C32,22 32,14 34,10Z" fill="#e8c0f0"/><circle cx="18" cy="18" r="3.5" fill="#d4a0e0"/></svg>`],
-  // strawberry + butterfly
-  [`<svg width="20" height="22" viewBox="0 0 34 34"><path d="M17,33 C17,33 6,24 6,16 C6,10 10,7 14,8 C15,8 16,9 17,10 C18,9 19,8 20,8 C24,7 28,10 28,16 C28,24 17,33 17,33Z" fill="#f05878"/><path d="M14,8 C12,5 12,3 14,2 C16,1 18,2 17,5" fill="#6ab84a"/><circle cx="12" cy="16" r="1.2" fill="white" opacity="0.5"/><circle cx="17" cy="13" r="1.2" fill="white" opacity="0.5"/><circle cx="22" cy="16" r="1.2" fill="white" opacity="0.5"/></svg>`,
-   `<svg width="22" height="20" viewBox="0 0 36 36"><path d="M18,18 C14,10 4,8 4,14 C4,20 12,20 18,18Z" fill="#f4c0dc"/><path d="M18,18 C22,10 32,8 32,14 C32,20 24,20 18,18Z" fill="#f4c0dc"/><path d="M18,18 C14,22 6,26 8,30 C12,32 18,26 18,18Z" fill="#e8d0f8"/><path d="M18,18 C22,22 30,26 28,30 C24,32 18,26 18,18Z" fill="#e8d0f8"/></svg>`],
-  // donat + flower
-  [`<svg width="22" height="22" viewBox="0 0 34 34"><circle cx="17" cy="17" r="13" fill="#f4a8c0"/><circle cx="17" cy="17" r="5.5" fill="#fdf4f9"/><path d="M8,12 Q12,6 20,8 Q26,10 26,17" fill="none" stroke="#f9d0e0" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-   `<svg width="22" height="22" viewBox="0 0 36 36"><ellipse cx="18" cy="8" rx="5" ry="7" fill="#f4c0dc"/><ellipse cx="28" cy="18" rx="7" ry="5" fill="#f4c0dc"/><ellipse cx="18" cy="28" rx="5" ry="7" fill="#f4c0dc"/><ellipse cx="8" cy="18" rx="7" ry="5" fill="#f4c0dc"/><circle cx="18" cy="18" r="5" fill="#fde8f4"/><circle cx="18" cy="18" r="2.5" fill="#f4a8cc"/></svg>`],
-  // lollipop + cake
-  [`<svg width="20" height="22" viewBox="0 0 34 34"><circle cx="16" cy="14" r="11" fill="#f9b8cc"/><path d="M6,14 Q11,6 16,14 Q21,22 26,14" fill="none" stroke="#fde0f0" stroke-width="3" stroke-linecap="round"/><line x1="22" y1="24" x2="30" y2="34" stroke="#d8c0f0" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-   `<svg width="22" height="22" viewBox="0 0 34 34"><rect x="6" y="20" width="24" height="12" rx="3" fill="#f9c0d4"/><path d="M6,20 Q10,14 18,16 Q26,14 30,20Z" fill="#fde8f4"/><rect x="17" y="8" width="2" height="8" rx="1" fill="#d8c0f0"/><ellipse cx="18" cy="8" rx="2.5" ry="3" fill="#f4a8cc"/></svg>`],
-  // cotton candy + mushroom
-  [`<svg width="22" height="22" viewBox="0 0 34 34"><circle cx="12" cy="14" r="8" fill="#f4c0dc" opacity="0.9"/><circle cx="22" cy="12" r="9" fill="#e8c0f8" opacity="0.9"/><circle cx="17" cy="9" r="7" fill="#f9d0f0" opacity="0.9"/><rect x="15" y="20" width="3" height="12" rx="1.5" fill="#e8d0c0"/></svg>`,
-   `<svg width="22" height="22" viewBox="0 0 36 36"><ellipse cx="18" cy="20" rx="14" ry="10" fill="#d8b0f0"/><rect x="14" y="22" width="8" height="10" rx="2" fill="#fde8f4"/><circle cx="11" cy="16" r="3" fill="white" opacity="0.7"/><circle cx="20" cy="13" r="2.5" fill="white" opacity="0.7"/><circle cx="27" cy="17" r="2" fill="white" opacity="0.7"/></svg>`],
-  // peach + lemon
-  [`<svg width="20" height="22" viewBox="0 0 34 34"><path d="M17,32 C10,32 5,26 5,19 C5,12 10,7 17,7 C24,7 29,12 29,19 C29,26 24,32 17,32Z" fill="#f9b890"/><path d="M15,7 C14,4 15,2 17,2" fill="none" stroke="#8ab870" stroke-width="2" stroke-linecap="round"/></svg>`,
-   `<svg width="20" height="22" viewBox="0 0 34 34"><path d="M17,5 C10,5 4,11 4,18 C4,25 10,31 17,31 C24,31 30,25 30,18 C30,11 26,5 17,5Z" fill="#f9e040"/><path d="M17,5 C20,3 22,2 24,4" fill="none" stroke="#8ab038" stroke-width="2" stroke-linecap="round"/></svg>`],
-  // cookies + pie
-  [`<svg width="22" height="22" viewBox="0 0 34 34"><circle cx="17" cy="18" r="13" fill="#e8b880"/><circle cx="11" cy="13" r="2.5" fill="#7b4f28" opacity="0.8"/><circle cx="20" cy="12" r="2" fill="#7b4f28" opacity="0.8"/><circle cx="24" cy="19" r="2.5" fill="#7b4f28" opacity="0.8"/><circle cx="13" cy="22" r="2" fill="#7b4f28" opacity="0.8"/></svg>`,
-   `<svg width="22" height="20" viewBox="0 0 34 34"><path d="M4,22 Q4,18 17,18 Q30,18 30,22 L30,26 Q30,30 17,30 Q4,30 4,26Z" fill="#e8b880"/><path d="M4,22 Q4,18 17,18 Q30,18 30,22 Q30,26 17,26 Q4,26 4,22Z" fill="#f9d4a0"/><circle cx="13" cy="19" r="1.2" fill="#c05030" opacity="0.7"/><circle cx="18" cy="17" r="1.2" fill="#c05030" opacity="0.7"/><circle cx="23" cy="19" r="1.2" fill="#c05030" opacity="0.7"/></svg>`],
-  // ice cream + waffle
-  [`<svg width="20" height="22" viewBox="0 0 36 36"><polygon points="18,34 10,18 26,18" fill="#fde0f0"/><ellipse cx="18" cy="17" rx="8" ry="8" fill="#f9b8cc"/><ellipse cx="14" cy="13" rx="6" ry="6" fill="#fde8f4"/><ellipse cx="23" cy="14" rx="5" ry="5" fill="#e8d0f8"/></svg>`,
-   `<svg width="22" height="20" viewBox="0 0 34 34"><rect x="4" y="10" width="26" height="20" rx="3" fill="#f9d090"/><line x1="4" y1="16" x2="30" y2="16" stroke="#e8b060" stroke-width="1.2"/><line x1="4" y1="22" x2="30" y2="22" stroke="#e8b060" stroke-width="1.2"/><line x1="11" y1="10" x2="11" y2="30" stroke="#e8b060" stroke-width="1.2"/><line x1="18" y1="10" x2="18" y2="30" stroke="#e8b060" stroke-width="1.2"/><line x1="25" y1="10" x2="25" y2="30" stroke="#e8b060" stroke-width="1.2"/></svg>`],
-  // grape + watermelon
-  [`<svg width="22" height="22" viewBox="0 0 34 34"><circle cx="11" cy="22" r="5" fill="#c090e0"/><circle cx="17" cy="24" r="5" fill="#c090e0"/><circle cx="23" cy="22" r="5" fill="#c090e0"/><circle cx="14" cy="16" r="5" fill="#d0a0f0"/><circle cx="20" cy="16" r="5" fill="#d0a0f0"/><circle cx="17" cy="10" r="5" fill="#e0b8f8"/></svg>`,
-   `<svg width="22" height="18" viewBox="0 0 34 24"><path d="M4,20 A14,14 0 0,1 30,20 Z" fill="#50c060"/><path d="M6,20 A12,12 0 0,1 28,20 Z" fill="#f05050"/><circle cx="11" cy="18" r="1.5" fill="#2a1808"/><circle cx="17" cy="15" r="1.5" fill="#2a1808"/><circle cx="23" cy="18" r="1.5" fill="#2a1808"/></svg>`],
-  // apple + banana
-  [`<svg width="20" height="22" viewBox="0 0 34 34"><path d="M17,8 C10,8 5,14 5,20 C5,27 10,33 17,33 C24,33 29,27 29,20 C29,14 24,8 17,8Z" fill="#f05050"/><path d="M22,10 C24,8 26,6 24,3" fill="none" stroke="#5a9a40" stroke-width="2" stroke-linecap="round"/></svg>`,
-   `<svg width="22" height="20" viewBox="0 0 34 34"><path d="M6,28 C4,22 6,12 14,8 C22,4 30,6 30,10 C30,10 24,8 18,12 C12,16 10,24 12,30 C10,30 7,30 6,28Z" fill="#f9d840"/><path d="M30,10 C30,10 28,9 26,9" fill="none" stroke="#8ab038" stroke-width="2" stroke-linecap="round"/></svg>`],
-  // chocolate + ring
-  [`<svg width="22" height="18" viewBox="0 0 34 28"><rect x="4" y="4" width="26" height="20" rx="4" fill="#9b6838"/><line x1="4" y1="11" x2="30" y2="11" stroke="#5a3418" stroke-width="1.5"/><line x1="4" y1="18" x2="30" y2="18" stroke="#5a3418" stroke-width="1.5"/><line x1="13" y1="4" x2="13" y2="24" stroke="#5a3418" stroke-width="1.5"/><line x1="22" y1="4" x2="22" y2="24" stroke="#5a3418" stroke-width="1.5"/></svg>`,
-   `<svg width="22" height="22" viewBox="0 0 36 36"><circle cx="18" cy="20" r="12" fill="none" stroke="#d8c0f0" stroke-width="4"/><path d="M12,8 L18,3 L24,8" fill="#e8c0f0" stroke="#d8a0e8" stroke-width="1"/><circle cx="18" cy="3" r="3" fill="#f4c0dc"/></svg>`],
-  // shooting star + moon
-  [`<svg width="22" height="22" viewBox="0 0 36 36"><polygon points="26,4 28,10 34,10 29,14 31,20 26,16 21,20 23,14 18,10 24,10" fill="#f9c0d4"/><line x1="24" y1="18" x2="8" y2="34" stroke="#f4c0dc" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg>`,
-   `<svg width="22" height="22" viewBox="0 0 36 36"><path d="M20,6 C14,8 10,14 10,20 C10,28 16,34 24,33 C16,34 8,28 8,19 C8,11 14,5 22,5Z" fill="#d8c0f0"/></svg>`],
-];
-
-// Header deco SVG scattered
-const HEADER_DECOS = [
-  {style:'top:8px;left:10px;width:26px;height:26px;', svg:`<svg viewBox="0 0 34 34"><circle cx="10" cy="24" r="7" fill="#f9b8cc"/><circle cx="22" cy="26" r="7" fill="#f9b8cc"/><path d="M10,17 C12,8 20,8 22,19" fill="none" stroke="#9ecf9e" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="17" r="2" fill="#9ecf9e"/></svg>`},
-  {style:'top:6px;left:44px;width:12px;height:12px;', svg:`<svg viewBox="0 0 18 18"><polygon points="9,1 11,7 17,7 12,11 14,17 9,13 4,17 6,11 1,7 7,7" fill="#d8c0f0"/></svg>`},
-  {style:'top:6px;right:10px;width:24px;height:26px;', svg:`<svg viewBox="0 0 34 34"><path d="M17,33 C17,33 6,24 6,16 C6,10 10,7 14,8 C15,8 16,9 17,10 C18,9 19,8 20,8 C24,7 28,10 28,16 C28,24 17,33 17,33Z" fill="#f05878"/><path d="M14,8 C12,5 12,3 14,2 C16,1 18,2 17,5" fill="#6ab84a"/><circle cx="12" cy="16" r="1.2" fill="white" opacity="0.5"/><circle cx="17" cy="13" r="1.2" fill="white" opacity="0.5"/><circle cx="22" cy="16" r="1.2" fill="white" opacity="0.5"/></svg>`},
-  {style:'top:12px;right:44px;width:20px;height:20px;', svg:`<svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="13" fill="#f4a8c0"/><circle cx="17" cy="17" r="5.5" fill="#fdf4f9"/><path d="M8,12 Q12,6 20,8 Q26,10 26,17" fill="none" stroke="#f9d0e0" stroke-width="2.5" stroke-linecap="round"/></svg>`},
-  {style:'top:38px;right:12px;width:10px;height:10px;', svg:`<svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#f4c0dc"/></svg>`},
-  {style:'top:50px;left:14px;width:8px;height:8px;', svg:`<svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#d8c0f0"/></svg>`},
-  {style:'bottom:10px;left:8px;width:20px;height:22px;', svg:`<svg viewBox="0 0 34 34"><path d="M17,32 C10,32 5,26 5,19 C5,12 10,7 17,7 C24,7 29,12 29,19 C29,26 24,32 17,32Z" fill="#f9b890"/><path d="M15,7 C14,4 15,2 17,2" fill="none" stroke="#8ab870" stroke-width="2" stroke-linecap="round"/></svg>`},
-  {style:'bottom:8px;right:10px;width:20px;height:20px;', svg:`<svg viewBox="0 0 34 34"><circle cx="17" cy="18" r="13" fill="#e8b880"/><circle cx="11" cy="13" r="2.5" fill="#7b4f28" opacity="0.8"/><circle cx="20" cy="12" r="2" fill="#7b4f28" opacity="0.8"/><circle cx="24" cy="19" r="2.5" fill="#7b4f28" opacity="0.8"/></svg>`},
-  {style:'bottom:16px;right:42px;width:8px;height:8px;', svg:`<svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#f4c0dc"/></svg>`},
-  {style:'bottom:20px;left:38px;width:7px;height:7px;', svg:`<svg viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#d8c0f0"/></svg>`},
-];
-
-let adminState={}, dataCache={};
-let decoIndex=0;
-
-function g(id){return document.getElementById(id);}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function escAttr(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\\'");}
-
-// inject header decos
-document.querySelectorAll('.page-header').forEach(h=>{
-  HEADER_DECOS.forEach(d=>{
-    const el=document.createElement('div');
-    el.className='deco'; el.style.cssText=d.style;
-    el.innerHTML=d.svg; h.appendChild(el);
-  });
-});
-
-function goTo(pageId){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  g(pageId).classList.add('active');
-  window.scrollTo(0,0);
-  const loads={
-    'page-app-streaming':['customer_streaming'],'page-app-editing':['customer_editing'],
-    'page-app-education':['customer_education'],'page-app-music':['customer_music'],'page-app-other':['customer_other'],
-    'page-topup':['customer_mlbb','customer_robux'],'page-sosmed':['customer_instagram','customer_tiktok']
-  };
-  if(loads[pageId]){
-    Promise.all(loads[pageId].map(s=>dataCache[s]?Promise.resolve():fetchSheet(s))).then(()=>{
-      if(pageId==='page-topup') renderCombinedGrid(['customer_mlbb','customer_robux'],'content-topup_mlbb_robux');
-      if(pageId==='page-sosmed') renderCombinedGrid(['customer_instagram','customer_tiktok'],'content-sosmed_ig_tiktok');
-    });
-  }
-  initSingleAdmins();
-}
-
-function renderCombinedGrid(sheets, containerId){
-  const el=g(containerId);
-  if(!el) return;
-  let allItems=[];
-  sheets.forEach(sheet=>{
-    (dataCache[sheet]||[]).forEach((item,i)=>{
-      allItems.push({...item, sheet, idx:i});
-    });
-  });
-  if(!allItems.length){el.innerHTML='<div class="loading-msg" style="grid-column:1/-1">belum ada data.</div>';return;}
-  el.innerHTML=allItems.map((item,i)=>{
-    const isPk=i%2===0;
-    const decoSet=DECOS[i%DECOS.length];
-    const blocks=parseContent(item.isi);
-    const isAdm=adminState[item.sheet];
-    let inner='';
-    if(blocks.length===0||(blocks.length===1&&!blocks[0].sub&&blocks[0].rows.length===0)){
-      inner=`<div style="font-size:10px;color:var(--text-sub);white-space:pre-line;text-align:center;line-height:1.8;">${esc(item.isi)}</div>`;
-    } else {
-      blocks.forEach((b,bi)=>{
-        if(bi>0) inner+=`<div class="pl-sep">· · ·</div>`;
-        if(b.sub) inner+=`<div class="pl-sub">${esc(b.sub)}</div>`;
-        b.rows.forEach(r=>{inner+=`<div class="pl-row"><span class="pl-dur">${esc(r.dur)}</span><span class="pl-dots"></span><span class="pl-price">${esc(r.price)}</span></div>`;});
-      });
-    }
-    return `<div class="pl-card ${isPk?'pk':'pv'}">
-      <div class="deco-tl">${decoSet[0]}</div>
-      <div class="deco-tr">${decoSet[1]}</div>
-      <div class="pl-title">${esc(item.judul)}</div>
-      ${inner}
-      ${isAdm?`<div style="display:flex;justify-content:center;gap:6px;margin-top:8px;">
-        <button onclick="inlineEdit('${item.sheet}',${item.idx})" style="background:var(--purple-light);border:1px solid var(--purple-mid);border-radius:6px;color:var(--purple-dark);font-size:10px;padding:2px 10px;cursor:pointer;font-family:inherit;">✎ edit</button>
-        <button onclick="inlineDelete('${item.sheet}',${item.idx})" style="background:none;border:1px solid rgba(192,80,80,0.3);border-radius:6px;color:#c05050;font-size:10px;padding:2px 10px;cursor:pointer;font-family:inherit;">× hapus</button>
-      </div>`:''}
-    </div>`;
-  }).join('');
-}
-
-async function apiCall(params){
-  const url=new URL(API);
-  Object.entries(params).forEach(([k,v])=>url.searchParams.set(k,v));
-  return (await fetch(url.toString())).json();
-}
-
-async function fetchSheet(sheet){
-  try{
-    const res=await apiCall({action:'get',sheet});
-    dataCache[sheet]=res.items||[];
-    renderSheet(sheet);
-  }catch(e){
-    const el=g('content-'+sheet);
-    if(el) el.innerHTML='<div class="loading-msg" style="grid-column:1/-1;color:#c05050">gagal memuat.</div>';
-  }
-}
-
-// Parse format: ##subjudul, dur | price, ---
-function parseContent(isi){
-  const lines=(isi||'').split('\n');
-  const blocks=[]; let current=null;
-  lines.forEach(line=>{
-    const l=line.trim();
-    if(!l) return;
-    if(l==='---'){if(current) blocks.push(current); current=null;}
-    else if(l.startsWith('##')){
-      if(current) blocks.push(current);
-      current={sub:l.replace(/^##/,'').trim(), rows:[]};
-    } else if(l.includes('|')){
-      const [d,p]=l.split('|');
-      if(!current) current={sub:'',rows:[]};
-      current.rows.push({dur:d.trim(),price:p.trim()});
-    }
-  });
-  if(current) blocks.push(current);
-  return blocks;
-}
-
-function renderSheet(sheet){
-  const items=dataCache[sheet]||[];
-  const el=g('content-'+sheet);
-  if(!el) return;
-  if(!items.length){el.innerHTML='<div class="loading-msg" style="grid-column:1/-1">belum ada data.</div>';return;}
-
-  el.innerHTML=items.map((item,i)=>{
-    const isAdmin=adminState[sheet];
-    const isPk=i%2===0;
-    const decoSet=DECOS[i%DECOS.length];
-    const blocks=parseContent(item.isi);
-
-    let inner='';
-    if(blocks.length===0 || (blocks.length===1 && !blocks[0].sub && blocks[0].rows.length===0)){
-      // fallback: tampilkan isi as-is dengan pre-line
-      inner=`<div style="font-size:10px;color:var(--text-sub);white-space:pre-line;text-align:center;line-height:1.8;">${esc(item.isi)}</div>`;
-    } else {
-      blocks.forEach((b,bi)=>{
-        if(bi>0) inner+=`<div class="pl-sep">· · ·</div>`;
-        if(b.sub) inner+=`<div class="pl-sub">${esc(b.sub)}</div>`;
-        b.rows.forEach(r=>{
-          inner+=`<div class="pl-row"><span class="pl-dur">${esc(r.dur)}</span><span class="pl-dots"></span><span class="pl-price">${esc(r.price)}</span></div>`;
-        });
-      });
-    }
-
-    return `<div class="pl-card ${isPk?'pk':'pv'}">
-      <div class="deco-tl">${decoSet[0]}</div>
-      <div class="deco-tr">${decoSet[1]}</div>
-      <div class="pl-title">${esc(item.judul)}</div>
-      ${inner}
-      ${isAdmin?`<div style="display:flex;justify-content:center;gap:6px;margin-top:8px;">
-        <button onclick="inlineEdit('${sheet}',${i})" style="background:var(--purple-light);border:1px solid var(--purple-mid);border-radius:6px;color:var(--purple-dark);font-size:10px;padding:2px 10px;cursor:pointer;font-family:inherit;">✎ edit</button>
-        <button onclick="inlineDelete('${sheet}',${i})" style="background:none;border:1px solid rgba(192,80,80,0.3);border-radius:6px;color:#c05050;font-size:10px;padding:2px 10px;cursor:pointer;font-family:inherit;">× hapus</button>
-      </div>`:''}
-    </div>`;
-  }).join('');
-}
-
-// Topup & sosmed use old format (judul + isi plain)
-function renderSheetSimple(sheet){
-  const items=dataCache[sheet]||[];
-  const el=g('content-'+sheet);
-  if(!el) return;
-  if(!items.length){el.innerHTML='<div class="loading-msg">belum ada data.</div>';return;}
-  const isPk=sheet.includes('mlbb')||sheet.includes('instagram');
-  el.innerHTML=items.map((item,i)=>{
-    const isAdmin=adminState[sheet]||adminState[sheet.startsWith('topup')?'topup':'sosmed'];
-    const blocks=parseContent(item.isi);
-    let inner='';
-    if(blocks.length===0||(blocks.length===1&&!blocks[0].sub&&blocks[0].rows.length===0)){
-      inner=`<div class="pricelist-item" style="background:${isPk?'rgba(253,232,244,0.5)':'rgba(239,228,252,0.5)'};border-radius:8px;padding:5px 8px;text-align:center;margin-bottom:4px;">
-        <div style="font-size:11px;font-weight:600;color:${isPk?'var(--pink-dark)':'var(--purple-dark)'};">${esc(item.judul)}</div>
-        <div style="font-size:11px;color:var(--text-sub);white-space:pre-line;line-height:1.7;">${esc(item.isi)}</div></div>`;
-    } else {
-      inner=`<div style="background:${isPk?'rgba(253,232,244,0.5)':'rgba(239,228,252,0.5)'};border-radius:8px;padding:6px 8px;margin-bottom:4px;">
-        <div style="font-size:11px;font-weight:600;color:${isPk?'var(--pink-dark)':'var(--purple-dark)'};text-align:center;margin-bottom:4px;">${esc(item.judul)}</div>`;
-      blocks.forEach((b,bi)=>{
-        if(bi>0) inner+=`<div class="pl-sep">· · ·</div>`;
-        if(b.sub) inner+=`<div class="pl-sub">${esc(b.sub)}</div>`;
-        b.rows.forEach(r=>{
-          inner+=`<div class="pl-row"><span class="pl-dur">${esc(r.dur)}</span><span class="pl-dots"></span><span class="pl-price">${esc(r.price)}</span></div>`;
-        });
-      });
-      inner+='</div>';
-    }
-    return inner;
-  }).join('');
-}
-
-function inlineEdit(sheet,idx){
-  const item=dataCache[sheet][idx];
-  const judul=prompt('Judul:',item.judul); if(judul===null) return;
-  const isi=prompt('Isi:\n(##subjudul untuk subjudul, dur | harga untuk baris, --- untuk pemisah)',item.isi); if(isi===null) return;
-  dataCache[sheet][idx]={judul,isi};
-  saveSheet(sheet);
-}
-async function inlineDelete(sheet,idx){
-  if(!confirm('Hapus "'+( dataCache[sheet][idx]?.judul||'item ini')+'"?')) return;
-  dataCache[sheet].splice(idx,1);
-  saveSheet(sheet);
-}
-
-function initSingleAdmins(){
-  SINGLE.forEach(sheet=>{
-    const sec=g('adminsec-'+sheet);
-    if(!sec||sec.dataset.init) return;
-    sec.dataset.init='1';
-    sec.innerHTML=`
-      <div class="admin-bar">
-        <div class="admin-status" id="adminstatus-${sheet}">mode publik</div>
-        <button class="btn-admin-toggle" id="admintoggle-${sheet}" onclick="toggleAdmin('${sheet}')">masuk admin</button>
+    <!-- ===== LICENTIA GIVEAWAY ===== -->
+    <div class="tab-panel" id="panel-licentia">
+      <div class="header">
+        <h1>🌸 Licentia Giveaway 🌸</h1>
       </div>
-      <div id="pwsec-${sheet}" class="hidden">
-        <div class="pw-row"><input type="password" id="pwinput-${sheet}" placeholder="password admin..." /><button class="pw-btn" onclick="submitPw('${sheet}')">masuk</button></div>
-        <div class="pw-error hidden" id="pwerr-${sheet}">password salah.</div>
+
+      <div class="info-card">
+        <div class="prize-title">hadiah! ꒰ ˆ ꒵ ˆ꒱ ⟡</div>
+        <div class="prize-list">
+          <div class="prize-item"><div class="prize-rank r1">1</div><div><div class="prize-amount">Rp 40.000</div><div class="prize-label">Peringkat 1</div></div></div>
+          <div class="prize-item"><div class="prize-rank r2">2</div><div><div class="prize-amount">Rp 30.000</div><div class="prize-label">Peringkat 2</div></div></div>
+          <div class="prize-item"><div class="prize-rank r3">3</div><div><div class="prize-amount">Rp 20.000</div><div class="prize-label">Peringkat 3</div></div></div>
+          <div class="prize-item"><div class="prize-rank r4">4</div><div><div class="prize-amount">Rp 10.000</div><div class="prize-label">Peringkat 4</div></div></div>
+        </div>
       </div>
-      <div id="adminedit-${sheet}" class="hidden edit-section">
-        <div id="editlist-${sheet}"></div>
-        <button class="btn-add-item" onclick="addEditItem('${sheet}')">+ tambah item</button>
-        <button class="btn-save" onclick="saveSheet('${sheet}')">simpan</button>
-        <div class="save-msg hidden" id="savemsg-${sheet}"></div>
-      </div>`;
-  });
-}
 
-function toggleAdmin(sheet){
-  if(adminState[sheet]){
-    adminState[sheet]=false;
-    g('adminstatus-'+sheet).textContent='mode publik';
-    g('adminstatus-'+sheet).className='admin-status';
-    g('admintoggle-'+sheet).textContent='masuk admin';
-    g('admintoggle-'+sheet).classList.remove('active');
-    g('adminedit-'+sheet).classList.add('hidden');
-    g('pwsec-'+sheet).classList.add('hidden');
-    renderSheet(sheet); return;
-  }
-  const pw=g('pwsec-'+sheet);
-  pw.classList.toggle('hidden'); if(!pw.classList.contains('hidden')) g('pwinput-'+sheet).focus();
-}
-function submitPw(sheet){
-  if(g('pwinput-'+sheet).value===PW){
-    adminState[sheet]=true;
-    g('pwsec-'+sheet).classList.add('hidden');
-    g('adminstatus-'+sheet).textContent='mode admin aktif';
-    g('adminstatus-'+sheet).className='admin-status unlocked';
-    g('admintoggle-'+sheet).textContent='keluar admin';
-    g('admintoggle-'+sheet).classList.add('active');
-    g('adminedit-'+sheet).classList.remove('hidden');
-    buildEditList(sheet); g('pwinput-'+sheet).value='';
-    renderSheet(sheet);
-  } else {
-    g('pwerr-'+sheet).classList.remove('hidden');
-    g('pwinput-'+sheet).value='';
-    setTimeout(()=>g('pwerr-'+sheet).classList.add('hidden'),2000);
-  }
-}
+      <div class="info-card">
+        <div class="tc-title">💭 ໒ັ term and condition</div>
+        <ul class="tc-list">
+          <li>setiap kali kamu melakukan transaksi di kokoro/licentia, kamu akan mendapatkan poin</li>
+          <li>semakin banyak poin kamu, semakin tinggi peringkat kamu!</li>
+          <li>pemenang give away akan diumumkan tanggal 1 di bulan berikutnya</li>
+          <li>code adalah 3-5 digit terakhir nomor whatsapp reseller</li>
+          <li>poin dihitung berdasarkan orderan reseller selama 1 bulan</li>
+        </ul>
+        <div class="poin-title">꒱ Sistem Poin</div>
+        <div class="poin-grid">
+          <div class="poin-row"><span class="range">Transaksi 100p – 5k</span><span class="pts">1 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 6k – 30k</span><span class="pts">2 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 31k – 50k</span><span class="pts">3 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi 50k – 100k</span><span class="pts">4 poin</span></div>
+          <div class="poin-row"><span class="range">Transaksi diatas 100k</span><span class="pts">5 poin</span></div>
+        </div>
+      </div>
 
-function toggleAdminGroup(group,sheets){
-  if(adminState[group]){
-    adminState[group]=false;
-    g('adminstatus-'+group).textContent='mode publik';
-    g('adminstatus-'+group).className='admin-status';
-    g('admintoggle-'+group).textContent='masuk admin';
-    g('admintoggle-'+group).classList.remove('active');
-    g('admin-'+group).classList.add('hidden');
-    g('pwsec-'+group).classList.add('hidden');
-    sheets.forEach(s=>renderSheetSimple(s)); return;
-  }
-  const pw=g('pwsec-'+group);
-  pw.classList.toggle('hidden'); if(!pw.classList.contains('hidden')) g('pwinput-'+group).focus();
-}
-function submitPwGroup(group,sheets){
-  if(g('pwinput-'+group).value===PW){
-    adminState[group]=true;
-    g('pwsec-'+group).classList.add('hidden');
-    g('adminstatus-'+group).textContent='mode admin aktif';
-    g('adminstatus-'+group).className='admin-status unlocked';
-    g('admintoggle-'+group).textContent='keluar admin';
-    g('admintoggle-'+group).classList.add('active');
-    g('admin-'+group).classList.remove('hidden');
-    sheets.forEach(s=>{buildEditList(s);renderSheetSimple(s);}); g('pwinput-'+group).value='';
-  } else {
-    g('pwerr-'+group).classList.remove('hidden');
-    g('pwinput-'+group).value='';
-    setTimeout(()=>g('pwerr-'+group).classList.add('hidden'),2000);
-  }
-}
+      <div class="tracker-card">
+        <div class="admin-bar">
+          <div class="admin-bar-left">
+            <i class="ti ti-lock" id="lockIcon-licentia" style="font-size:16px"></i>
+            <span id="adminStatus-licentia" class="status-locked">Mode publik — hanya bisa melihat</span>
+          </div>
+          <button class="btn-admin" id="btnAdminToggle-licentia" onclick="toggleAdmin('licentia')">
+            <i class="ti ti-shield"></i> <span id="btnAdminLabel-licentia">Masuk sebagai Admin</span>
+          </button>
+        </div>
+        <div id="pwSection-licentia" class="hidden">
+          <div class="pw-row">
+            <input type="password" id="pwInput-licentia" placeholder="Masukkan password admin..." />
+            <button class="btn-primary" onclick="submitPw('licentia')"><i class="ti ti-arrow-right"></i> Masuk</button>
+          </div>
+          <div class="pw-error" id="pwError-licentia"></div>
+        </div>
+        <div id="inputSection-licentia" class="input-section hidden">
+          <div class="input-row">
+            <input type="text" id="codeInput-licentia" placeholder="Kode (3-5 digit terakhir WA)" maxlength="10" />
+            <input type="number" id="countInput-licentia" placeholder="Poin" min="1" value="1" />
+            <button class="btn-primary" id="btnTambah-licentia" onclick="addCode('licentia')"><i class="ti ti-plus"></i> Tambah</button>
+          </div>
+          <div class="error-msg" id="errMsg-licentia"></div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-label">Total peserta</div><div class="stat-val" id="statUnique-licentia">—</div></div>
+          <div class="stat-card"><div class="stat-label">Total poin</div><div class="stat-val" id="statTotal-licentia">—</div></div>
+          <div class="stat-card"><div class="stat-label">Peringkat 1</div><div class="stat-val" id="statTop-licentia">—</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Rank</th><th>Kode</th><th>Poin</th><th>Proporsi</th><th></th></tr></thead>
+            <tbody id="tableBody-licentia">
+              <tr><td colspan="5" class="loading-msg"><i class="ti ti-refresh spinning"></i> Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="action-row">
+          <button class="btn-refresh" onclick="fetchData('licentia')"><i class="ti ti-refresh"></i> Refresh</button>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="sync-msg" id="syncMsg-licentia"></span>
+            <button class="btn-clear hidden" id="btnClear-licentia" onclick="clearAll('licentia')"><i class="ti ti-trash"></i> Hapus semua</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-function buildEditList(sheet){
-  const el=g('editlist-'+sheet); if(!el) return;
-  const items=dataCache[sheet]||[];
-  el.innerHTML=items.map((item,i)=>`
-    <div class="edit-item">
-      <div class="edit-label">judul</div>
-      <input type="text" placeholder="nama app" value="${escAttr(item.judul)}" id="judul-${sheet}-${i}" />
-      <div class="edit-label">isi (##subjudul · dur | harga · --- pemisah)</div>
-      <textarea id="isi-${sheet}-${i}">${esc(item.isi)}</textarea>
-      <div class="edit-item-actions"><button class="btn-del-item" onclick="delEditItem('${sheet}',${i})">× hapus</button></div>
-    </div>`).join('');
-}
-function addEditItem(sheet){
-  if(!dataCache[sheet]) dataCache[sheet]=[];
-  dataCache[sheet].push({judul:'',isi:''});
-  buildEditList(sheet);
-}
-function delEditItem(sheet,idx){ dataCache[sheet].splice(idx,1); buildEditList(sheet); }
-function collectItems(sheet){
-  return (dataCache[sheet]||[]).map((_,i)=>({
-    judul:(g('judul-'+sheet+'-'+i)?.value||'').trim(),
-    isi:(g('isi-'+sheet+'-'+i)?.value||'').trim(),
-  })).filter(item=>item.judul||item.isi);
-}
-async function saveSheet(sheet){
-  const items=collectItems(sheet)||dataCache[sheet];
-  if(g('judul-'+sheet+'-0')!==null) dataCache[sheet]=collectItems(sheet);
-  try{
-    await apiCall({action:'save',sheet,items:JSON.stringify(dataCache[sheet])});
-    renderSheet(sheet);
-    if(SINGLE.includes(sheet)) renderSheet(sheet); else renderSheetSimple(sheet);
-    buildEditList(sheet);
-    const group=sheet.startsWith('customer_mlbb')||sheet.startsWith('customer_robux')?'topup':sheet.startsWith('customer_instagram')||sheet.startsWith('customer_tiktok')?'sosmed':sheet;
-    const msgEl=g('savemsg-'+group)||g('savemsg-'+sheet);
-    if(msgEl){msgEl.textContent='tersimpan!';msgEl.classList.remove('hidden');setTimeout(()=>msgEl.classList.add('hidden'),2500);}
-  }catch(e){alert('gagal menyimpan. coba lagi.');}
-}
+    <footer>made by <a href="https://t.me/hallokokoro" target="_blank">@hallokokoro</a> on telegram</footer>
+  </div>
 
-document.addEventListener('keydown',e=>{
-  if(e.key!=='Enter'||!document.activeElement||document.activeElement.type!=='password') return;
-  const id=document.activeElement.id.replace('pwinput-','');
-  if(id==='topup') submitPwGroup('topup',['customer_mlbb','customer_robux']);
-  else if(id==='sosmed') submitPwGroup('sosmed',['customer_instagram','customer_tiktok']);
-  else submitPw(id);
-});
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxmnSAy8WzZ_vQlP8YtVb8pTbjutrRqdblL7CSQmUTYkWngeDdWC80EtwOImBC8wbvr/exec';
+    const CORRECT_PW = 'candylucu';
+    const SHEET_MAP = { kokoro: 'Giveaway1', licentia: 'Giveaway2' };
 
-// Load topup & sosmed on page load
-// topup & sosmed loaded via goTo
-initSingleAdmins();
-</script>
+    let dataStore = { kokoro: {}, licentia: {} };
+    let adminState = { kokoro: false, licentia: false };
+    let pwVisible = { kokoro: false, licentia: false };
+
+    function g(id) { return document.getElementById(id); }
+
+    function api(params) {
+      const url = new URL(API_URL);
+      Object.entries(params).forEach(([k,v]) => url.searchParams.set(k, v));
+      return fetch(url.toString()).then(r => r.json());
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      g('panel-' + tab).classList.add('active');
+      document.querySelectorAll('.tab-btn')[tab === 'kokoro' ? 0 : 1].classList.add('active');
+    }
+
+    async function fetchData(tab) {
+      g('tableBody-' + tab).innerHTML = '<tr><td colspan="5" class="loading-msg"><i class="ti ti-refresh spinning"></i> Memuat data...</td></tr>';
+      g('syncMsg-' + tab).textContent = '';
+      try {
+        const res = await api({ action: 'get', sheet: SHEET_MAP[tab] });
+        dataStore[tab] = res.data || {};
+        render(tab);
+        const now = new Date();
+        g('syncMsg-' + tab).textContent = 'Diperbarui ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+      } catch(e) {
+        g('tableBody-' + tab).innerHTML = '<tr><td colspan="5" class="empty-msg" style="color:var(--text-danger)">Gagal memuat data. Coba refresh.</td></tr>';
+      }
+    }
+
+    async function addCode(tab) {
+      if (!adminState[tab]) return;
+      const code = g('codeInput-' + tab).value.trim();
+      const count = parseInt(g('countInput-' + tab).value) || 1;
+      const err = g('errMsg-' + tab);
+      if (!code) { err.textContent = 'Kode tidak boleh kosong.'; return; }
+      if (count < 1 || count > 9999) { err.textContent = 'Poin harus antara 1 – 9999.'; return; }
+      err.textContent = '';
+      const newCount = (dataStore[tab][code] || 0) + count;
+      g('btnTambah-' + tab).disabled = true;
+      try {
+        await api({ action: 'set', sheet: SHEET_MAP[tab], code, count: newCount });
+        dataStore[tab][code] = newCount;
+        render(tab);
+        g('codeInput-' + tab).value = '';
+        g('countInput-' + tab).value = '1';
+        g('codeInput-' + tab).focus();
+        g('syncMsg-' + tab).textContent = 'Tersimpan ✓';
+      } catch(e) { err.textContent = 'Gagal menyimpan. Coba lagi.'; }
+      g('btnTambah-' + tab).disabled = false;
+    }
+
+    async function deleteCode(tab, code) {
+      if (!adminState[tab]) return;
+      if (!confirm('Hapus kode ' + code + '?')) return;
+      try {
+        await api({ action: 'delete', sheet: SHEET_MAP[tab], code });
+        delete dataStore[tab][code];
+        render(tab);
+        g('syncMsg-' + tab).textContent = 'Dihapus ✓';
+      } catch(e) { alert('Gagal menghapus. Coba lagi.'); }
+    }
+
+    async function clearAll(tab) {
+      if (!adminState[tab]) return;
+      if (!Object.keys(dataStore[tab]).length) return;
+      if (!confirm('Hapus SEMUA data? Tindakan ini tidak bisa dibatalkan.')) return;
+      try {
+        await api({ action: 'clear', sheet: SHEET_MAP[tab] });
+        dataStore[tab] = {};
+        render(tab);
+        g('syncMsg-' + tab).textContent = 'Semua data dihapus ✓';
+      } catch(e) { alert('Gagal menghapus. Coba lagi.'); }
+    }
+
+    function toggleAdmin(tab) {
+      if (adminState[tab]) {
+        adminState[tab] = false; pwVisible[tab] = false;
+        g('pwSection-' + tab).classList.add('hidden');
+        g('inputSection-' + tab).classList.add('hidden');
+        g('btnClear-' + tab).classList.add('hidden');
+        g('lockIcon-' + tab).className = 'ti ti-lock';
+        g('adminStatus-' + tab).textContent = 'Mode publik — hanya bisa melihat';
+        g('adminStatus-' + tab).className = 'status-locked';
+        g('btnAdminLabel-' + tab).textContent = 'Masuk sebagai Admin';
+        g('btnAdminToggle-' + tab).classList.remove('active');
+        render(tab); return;
+      }
+      pwVisible[tab] = !pwVisible[tab];
+      g('pwSection-' + tab).classList.toggle('hidden', !pwVisible[tab]);
+      if (pwVisible[tab]) { g('pwInput-' + tab).focus(); g('pwError-' + tab).textContent = ''; }
+    }
+
+    function submitPw(tab) {
+      const val = g('pwInput-' + tab).value;
+      if (val === CORRECT_PW) {
+        adminState[tab] = true; pwVisible[tab] = false;
+        g('pwSection-' + tab).classList.add('hidden');
+        g('inputSection-' + tab).classList.remove('hidden');
+        g('btnClear-' + tab).classList.remove('hidden');
+        g('lockIcon-' + tab).className = 'ti ti-shield-check';
+        g('adminStatus-' + tab).textContent = 'Mode admin — dapat menambah & menghapus data';
+        g('adminStatus-' + tab).className = 'status-unlocked';
+        g('btnAdminLabel-' + tab).textContent = 'Keluar Admin';
+        g('btnAdminToggle-' + tab).classList.add('active');
+        g('pwInput-' + tab).value = '';
+        g('pwError-' + tab).textContent = '';
+        g('codeInput-' + tab).focus();
+        render(tab);
+      } else {
+        g('pwError-' + tab).textContent = 'Password salah. Coba lagi.';
+        g('pwInput-' + tab).value = '';
+        g('pwInput-' + tab).focus();
+      }
+    }
+
+    function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function escAttr(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+
+    function render(tab) {
+      const data = dataStore[tab];
+      const sorted = Object.entries(data).sort((a,b) => b[1]-a[1]);
+      const total = sorted.reduce((s,[,v]) => s+Number(v), 0);
+      const max = sorted.length ? Number(sorted[0][1]) : 1;
+      const isAdm = adminState[tab];
+
+      g('statUnique-' + tab).textContent = sorted.length;
+      g('statTotal-' + tab).textContent = total.toLocaleString('id-ID');
+      g('statTop-' + tab).textContent = sorted.length ? sorted[0][0] : '—';
+
+      const tbody = g('tableBody-' + tab);
+      if (!sorted.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty-msg">Belum ada data. 🌸</td></tr>'; return; }
+      tbody.innerHTML = sorted.map(([code, count], i) => {
+        const rank = i+1, c = Number(count);
+        const pct = total ? Math.round(c/total*100) : 0;
+        const barW = Math.round(c/max*100);
+        const rc = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
+        return `<tr>
+          <td><span class="rank-badge ${rc}">${rank}</span></td>
+          <td class="code-cell">${esc(code)}</td>
+          <td class="count-cell">${c.toLocaleString('id-ID')}</td>
+          <td><div class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:${barW}%"></div></div><span class="pct-label">${pct}%</span></div></td>
+          <td><button class="btn-del" onclick="deleteCode('${tab}','${escAttr(code)}')" ${isAdm?'':'disabled'}>×</button></td>
+        </tr>`;
+      }).join('');
+    }
+
+    // Enter key support
+    ['kokoro','licentia'].forEach(tab => {
+      setTimeout(() => {
+        g('pwInput-'+tab)?.addEventListener('keydown', e => { if(e.key==='Enter') submitPw(tab); });
+        g('codeInput-'+tab)?.addEventListener('keydown', e => { if(e.key==='Enter') addCode(tab); });
+        g('countInput-'+tab)?.addEventListener('keydown', e => { if(e.key==='Enter') addCode(tab); });
+      }, 100);
+    });
+
+    // Load both
+    fetchData('kokoro');
+    fetchData('licentia');
+  </script>
 </body>
 </html>
