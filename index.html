@@ -404,12 +404,6 @@
   <div class="giveaway-wrap">
     <button class="back-btn" onclick="goBack()">← kembali</button>
 
-    <div class="tab-switcher">
-      <button class="tab-btn active" id="tab-kokoro" onclick="switchTab('kokoro')">🎀 Kokoro Giveaway</button>
-      <button class="tab-btn" id="tab-licentia" onclick="switchTab('licentia')">🌸 Licentia Giveaway</button>
-    </div>
-
-    <!-- KOKORO -->
     <div class="tab-panel active" id="panel-kokoro">
       <div class="info-card">
         <div class="prize-title">hadiah! ꒰ ˆ ꒵ ˆ꒱ ⟡</div>
@@ -711,19 +705,33 @@ function render(tab){
   g('statTotal-'+tab).textContent = total.toLocaleString('id-ID');
   g('statTop-'+tab).textContent = sorted.length ? sorted[0][0] : '—';
   const tbody = g('tableBody-'+tab);
-  if(!sorted.length){ tbody.innerHTML='<tr><td colspan="4" class="empty-msg">belum ada data. 🌸</td></tr>'; return; }
+  if(!sorted.length){ tbody.innerHTML='<tr><td colspan="5" class="empty-msg">belum ada data. 🌸</td></tr>'; return; }
   tbody.innerHTML = sorted.map(([code,count],i)=>{
     const rank=i+1, c=Number(count);
     const pct=total?Math.round(c/total*100):0;
     const barW=Math.round(c/max*100);
     const rc=rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-n';
+    const delBtn = adminState[tab]
+      ? `<button onclick="deleteCode('${tab}','${escAttr(code)}')" style="background:none;border:1px solid rgba(192,80,80,0.3);border-radius:6px;color:#c05050;font-size:10px;padding:2px 8px;cursor:pointer;font-family:inherit;white-space:nowrap;">× hapus</button>`
+      : '';
     return `<tr>
       <td><span class="rank-badge ${rc}">${rank}</span></td>
       <td class="code-cell">${esc(code)}</td>
       <td class="count-cell">${c.toLocaleString('id-ID')}</td>
       <td><div class="bar-cell"><div class="bar-wrap"><div class="bar-fill" style="width:${barW}%"></div></div><span class="pct-label">${pct}%</span></div></td>
+      ${adminState[tab]?`<td>${delBtn}</td>`:''}
     </tr>`;
   }).join('');
+}
+
+async function deleteCode(tab, code){
+  if(!confirm(`Hapus kode "${code}" dari ${tab} giveaway?`)) return;
+  try{
+    await apiCall({action:'delete', sheet:SHEET_MAP[tab], code});
+    delete dataStore[tab][code];
+    render(tab);
+    g('syncMsg-'+tab).textContent = 'terhapus ✓';
+  } catch(e){ alert('gagal menghapus. coba lagi.'); }
 }
 
 document.addEventListener('keydown', e=>{
